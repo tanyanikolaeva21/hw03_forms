@@ -10,7 +10,7 @@ POSTS_PER_PAGE = 10
 def index(request):
     text = 'Последние обновления на сайте'
     post_list = Post.objects.all().order_by('-pub_date')
-    paginator = Paginator(post_list, POSTS_PER_PAGE) 
+    paginator = Paginator(post_list, POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -24,7 +24,7 @@ def group_posts(request, slug):
     text = 'test'
     group = get_object_or_404(Group, slug=slug)
     post_list_group = Post.objects.filter(group=group).order_by('-pub_date')
-    paginator = Paginator(post_list_group, POSTS_PER_PAGE) 
+    paginator = Paginator(post_list_group, POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -38,7 +38,7 @@ def profile(request, username):
     user = User.objects.get(username=username)
     posts_user = Post.objects.filter(author=user)
     posts_count = posts_user.count()
-    paginator = Paginator(posts_user, POSTS_PER_PAGE) 
+    paginator = Paginator(posts_user, POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -54,7 +54,7 @@ def post_detail(request, post_id):
     authors_post = post_info.author.posts.count()
     context = {
         'post_info': post_info,
-        'authors_post' : authors_post,
+        'authors_post': authors_post,
     }
     return render(request, 'posts/post_detail.html', context)
 
@@ -95,4 +95,3 @@ def post_edit(request, post_id):
         'is_edit': is_edit,
     }
     return render(request, template, context)
-
