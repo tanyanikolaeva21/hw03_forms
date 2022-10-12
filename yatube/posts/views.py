@@ -21,7 +21,7 @@ def index(request):
 
 
 def group_posts(request, slug):
-    text = f'Группа сообщества: '
+    text = 'Группа сообщества: '
     group = get_object_or_404(Group, slug=slug)
     post_list_group = Post.objects.filter(group=group).order_by('-pub_date')
     paginator = Paginator(post_list_group, POSTS_PER_PAGE)
