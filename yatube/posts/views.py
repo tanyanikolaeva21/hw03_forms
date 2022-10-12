@@ -21,13 +21,14 @@ def index(request):
 
 
 def group_posts(request, slug):
-    text = 'test'
+    text = f'Группа сообщества: '
     group = get_object_or_404(Group, slug=slug)
     post_list_group = Post.objects.filter(group=group).order_by('-pub_date')
     paginator = Paginator(post_list_group, POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
+        'group': group,
         'page_obj': page_obj,
         'title': text,
     }
@@ -42,7 +43,7 @@ def profile(request, username):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
-        'user': user,
+        'author': user,
         'posts_count': posts_count,
         'page_obj': page_obj,
     }

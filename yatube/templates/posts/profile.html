@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
-{% block header %}{{ название_группы }}{% endblock %}
-{% block title %} Профайл пользователя {{ user }} {% endblock %}
+{% block title %} Профайл пользователя {{ author }} {% endblock %}
 {% block content %}
 <h1>Все посты пользователя {{ user }}</h1>
         <h3>Всего постов: {{ posts_count }}</h3>   
