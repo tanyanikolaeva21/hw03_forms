@@ -30,8 +30,8 @@ def group_posts(request, slug):
         'posts': post_list_group,
         'title': text,
     }
-    context.update (get_page_context(post_list_group, request))
-    return render (request, 'posts/group_list.html', context)
+    context.update(get_page_context (post_list_group, request))
+    return render(request, 'posts/group_list.html', context)
 
 
 def profile(request, username):
@@ -42,8 +42,8 @@ def profile(request, username):
         'author': user,
         'posts_count': posts_count,
     }
-    context.update (get_page_context(user.posts.all(), request))
-    return render (request, 'posts/profile.html', context)
+    context.update(get_page_context(user.posts.all(), request))
+    return render(request, 'posts/profile.html', context)
 
 
 def post_detail(request, post_id):
