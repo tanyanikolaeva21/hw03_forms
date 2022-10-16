@@ -3,9 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Group, User
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
+from utils.pagin import get_page_context
 
 POSTS_PER_PAGE = 10
-
 
 def index(request):
     text = 'Последние обновления на сайте'
@@ -24,29 +24,24 @@ def group_posts(request, slug):
     text = 'Группа сообщества: '
     group = get_object_or_404(Group, slug=slug)
     post_list_group = Post.objects.filter(group=group).order_by('-pub_date')
-    paginator = Paginator(post_list_group, POSTS_PER_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         'group': group,
-        'page_obj': page_obj,
+        'posts': post_list_group,
         'title': text,
     }
-    return render(request, 'posts/group_list.html', context)
+    context.update(get_page_context(post_list_group, request))
+    return render (request, 'posts/group_list.html', context)
 
 
 def profile(request, username):
     user = User.objects.get(username=username)
     posts_user = Post.objects.filter(author=user)
     posts_count = posts_user.count()
-    paginator = Paginator(posts_user, POSTS_PER_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         'author': user,
         'posts_count': posts_count,
-        'page_obj': page_obj,
     }
+    context.update(get_page_context(user.posts.all(), request))
     return render(request, 'posts/profile.html', context)
 
 
@@ -77,7 +72,7 @@ def post_create(request):
 def post_edit(request, post_id):
     template = 'posts/create_post.html'
     post = get_object_or_404(Post, id=post_id, author=request.user)
-    user_ = request.user.get_username()
+    user = request.user.get_username()
     is_edit = True
     form = PostForm(request.POST or None, instance=post)
 
