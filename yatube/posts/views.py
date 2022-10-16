@@ -7,6 +7,7 @@ from utils.pagin import get_page_context
 
 POSTS_PER_PAGE = 10
 
+
 def index(request):
     text = 'Последние обновления на сайте'
     post_list = Post.objects.all().order_by('-pub_date')
@@ -29,7 +30,7 @@ def group_posts(request, slug):
         'posts': post_list_group,
         'title': text,
     }
-    context.update(get_page_context(post_list_group, request))
+    context.update (get_page_context(post_list_group, request))
     return render (request, 'posts/group_list.html', context)
 
 
@@ -41,8 +42,8 @@ def profile(request, username):
         'author': user,
         'posts_count': posts_count,
     }
-    context.update(get_page_context(user.posts.all(), request))
-    return render(request, 'posts/profile.html', context)
+    context.update (get_page_context(user.posts.all(), request))
+    return render (request, 'posts/profile.html', context)
 
 
 def post_detail(request, post_id):
@@ -77,7 +78,7 @@ def post_edit(request, post_id):
     form = PostForm(request.POST or None, instance=post)
 
     if request.method == 'GET':
-        if user_ != post.author.username:
+        if user != post.author.username:
             return redirect('posts:post_detail', post.id)
 
     elif request.method == 'POST':
