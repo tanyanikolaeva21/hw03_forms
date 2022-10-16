@@ -30,7 +30,7 @@ def group_posts(request, slug):
         'posts': post_list_group,
         'title': text,
     }
-    context.update(get_page_context (post_list_group, request))
+    context.update(get_page_context(post_list_group, request))
     return render(request, 'posts/group_list.html', context)
 
 
